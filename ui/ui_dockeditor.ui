@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Baas geo-information</author>
+ <class>DockEditor</class>
+ <widget class="QDockWidget" name="DockEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>1027</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Funderingsherstel Zaanstad</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Funderingsherstel&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Klik in de kaart om info op te vragen en gegevens te muteren.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="newGroupBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="pandidLabel">
+         <property name="font">
+          <font>
+           <pointsize>13</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>pandidLabel</string>
+         </property>
+         <property name="buddy">
+          <cstring>newPandButton</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Voor dit BAG object zijn nog geen funderingsgegevens opgeslagen:</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="newPandButton">
+         <property name="text">
+          <string>Nieuw pand</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#0080ff;&quot;&gt;Nieuw pand&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="editGroupBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="horizontalSpacing">
+        <number>-1</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>1</number>
+       </property>
+       <property name="margin">
+        <number>10</number>
+       </property>
+       <item row="6" column="0" rowspan="2">
+        <widget class="QWidget" name="verwijderWidget" native="true">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QCheckBox" name="deleteCheckBox">
+            <property name="text">
+             <string>Object verwijderen</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="deleteButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Verwijderen</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QWidget" name="saveWidget" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#408000;&quot;&gt;Pand bewerken&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QDialogButtonBox" name="actionButtonBox">
+            <property name="locale">
+             <locale language="Dutch" country="Netherlands"/>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Abort|QDialogButtonBox::Save</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QWidget" name="widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>32</height>
+          </size>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QCommandLinkButton" name="commandLinkButton">
+            <property name="toolTip">
+             <string>Klik om adresgegevens op te vragen</string>
+            </property>
+            <property name="text">
+             <string>CommandLinkButton</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QGroupBox" name="detailsGroupBox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>340</height>
+          </size>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <item row="17" column="0" colspan="2">
+           <widget class="QCheckBox" name="handhavingCheckBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Monitoring handhaving</string>
+            </property>
+           </widget>
+          </item>
+          <item row="21" column="0">
+           <widget class="QLabel" name="richtlijnLabel">
+            <property name="text">
+             <string>Richtlijn</string>
+            </property>
+            <property name="buddy">
+             <cstring>richtlijnCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="20" column="0">
+           <widget class="QLabel" name="renbLabel">
+            <property name="text">
+             <string>Project</string>
+            </property>
+            <property name="buddy">
+             <cstring>projectCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Funderingsgegevens voor BAG object&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="bouwjaarLabel">
+            <property name="text">
+             <string>Bouwjaar</string>
+            </property>
+            <property name="buddy">
+             <cstring>bouwjaarText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0">
+           <widget class="QLabel" name="kwaliteitsklasseLabel">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0   = Onbekend&lt;/p&gt;&lt;p&gt;1   = Ruim voldoende&lt;/p&gt;&lt;p&gt;2   = Voldoende&lt;/p&gt;&lt;p&gt;3   = Matig&lt;/p&gt;&lt;p&gt;3+ = Onvoldoende&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Kwaliteitsklasse</string>
+            </property>
+            <property name="buddy">
+             <cstring>kwaliteitsklasseCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="0" colspan="2">
+           <widget class="QCheckBox" name="inonderzoekCheckBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Pand in onderzoek</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="idText">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="idButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>21</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Klik om in te zoomen naar pand</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../resources.qrc">
+                <normaloff>:/funderingsherstel/icons/zoomin.svg</normaloff>:/funderingsherstel/icons/zoomin.svg</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="19" column="1">
+           <widget class="QComboBox" name="bezitCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="22" column="0">
+           <widget class="QLabel" name="opmerkingLabel">
+            <property name="text">
+             <string>Opmerking</string>
+            </property>
+            <property name="buddy">
+             <cstring>opmerkingText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="1">
+           <widget class="QSpinBox" name="hersteldJaarSpinBox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="wrapping">
+             <bool>false</bool>
+            </property>
+            <property name="specialValueText">
+             <string/>
+            </property>
+            <property name="minimum">
+             <number>1900</number>
+            </property>
+            <property name="maximum">
+             <number>2050</number>
+            </property>
+            <property name="value">
+             <number>1900</number>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QLineEdit" name="typeText">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="1">
+           <widget class="QComboBox" name="kwaliteitsklasseCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>0</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>3</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Onbekend</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="12" column="1">
+           <widget class="QSpinBox" name="onderzochtJaarSpinBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="specialValueText">
+             <string/>
+            </property>
+            <property name="suffix">
+             <string/>
+            </property>
+            <property name="prefix">
+             <string/>
+            </property>
+            <property name="minimum">
+             <number>1900</number>
+            </property>
+            <property name="maximum">
+             <number>2050</number>
+            </property>
+            <property name="value">
+             <number>1900</number>
+            </property>
+           </widget>
+          </item>
+          <item row="22" column="1">
+           <widget class="QPlainTextEdit" name="opmerkingText">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="plainText">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="QLabel" name="typeLabel">
+            <property name="text">
+             <string>Type</string>
+            </property>
+            <property name="buddy">
+             <cstring>typeText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="20" column="1">
+           <widget class="QComboBox" name="projectCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QLineEdit" name="statusText">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="0">
+           <widget class="QCheckBox" name="hersteldCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>24</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Hersteld jaar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QCheckBox" name="onderzochtCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>24</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Pand onderzocht</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QLineEdit" name="bouwjaarText">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QLabel" name="statusLabel">
+            <property name="text">
+             <string>Status</string>
+            </property>
+            <property name="buddy">
+             <cstring>statusText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="21" column="1">
+           <widget class="QComboBox" name="richtlijnCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="idLabel">
+            <property name="text">
+             <string>BAG id</string>
+            </property>
+            <property name="buddy">
+             <cstring>idText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="19" column="0">
+           <widget class="QLabel" name="bezitLabel">
+            <property name="text">
+             <string>Bezit</string>
+            </property>
+            <property name="buddy">
+             <cstring>bezitCombo</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="errorFrame">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Problemen geconstateerd, programma kan niet werken zonder de juiste kaartlagen.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>idText</tabstop>
+  <tabstop>idButton</tabstop>
+  <tabstop>statusText</tabstop>
+  <tabstop>typeText</tabstop>
+  <tabstop>bouwjaarText</tabstop>
+  <tabstop>onderzochtCheckBox</tabstop>
+  <tabstop>onderzochtJaarSpinBox</tabstop>
+  <tabstop>hersteldCheckBox</tabstop>
+  <tabstop>hersteldJaarSpinBox</tabstop>
+  <tabstop>kwaliteitsklasseCombo</tabstop>
+  <tabstop>inonderzoekCheckBox</tabstop>
+  <tabstop>handhavingCheckBox</tabstop>
+  <tabstop>bezitCombo</tabstop>
+  <tabstop>projectCombo</tabstop>
+  <tabstop>richtlijnCombo</tabstop>
+  <tabstop>opmerkingText</tabstop>
+  <tabstop>actionButtonBox</tabstop>
+  <tabstop>deleteCheckBox</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>newPandButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>hersteldCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>hersteldJaarSpinBox</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>557</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>357</x>
+     <y>557</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>onderzochtCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>onderzochtJaarSpinBox</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>171</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>357</x>
+     <y>523</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>deleteButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>821</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>829</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,16 @@
+[general]
+name=Funderingsherstel Zaanstad
+description=Beheermodule voor het bijhouden van funderingsherstel gegevens
+version=0.5
+qgisMinimumVersion=2.2
+author=Bart Baas
+email=info@baasgeo.com
+
+experimental=False
+
+icon=icons/fundering-128.png
+tags=funderingsherstel,zaanstad
+homepage=http://baasgeo.com
+tracker=https://github.com/zaanstad/QGIS-funderingen/issues
+repository=https://github.com/zaanstad/QGIS-funderingen
+

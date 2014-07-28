@@ -6,6 +6,7 @@
 # Packages
 *.egg
 *.egg-info
+*.zip
 dist
 build
 eggs
@@ -34,3 +35,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Directories
+deploy

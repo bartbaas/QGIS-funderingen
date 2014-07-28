@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="/funderingsherstel">
+    <file>icons/zoomin.svg</file>
+    <file>icons/help.svg</file>
+    <file>icons/logo.svg</file>
+    <file>icons/fundering.svg</file>
+  </qresource>
+</RCC>
