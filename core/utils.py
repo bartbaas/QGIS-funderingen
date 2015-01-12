@@ -32,6 +32,7 @@ from qgis.core import QgsVectorLayer, QgsFeature, QgsMapLayerRegistry, QgsMapLay
 layerName = "gebouw" 
 adresLayerName = "verblijfsobject" 
 editLayerName = "fund_administratief"
+geomLayerName = "fund_panden_qgis"
 featureRubberColor = QColor(255, 255, 0)
 featureRubberSize = 6
 atrDefaults = {u'pand_id': 0000L, u'onderzocht': u'f', u'hersteld': u'f', u'kwaliteitsklasse': u'0', u'id': 1L}

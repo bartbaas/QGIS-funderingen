@@ -26,15 +26,18 @@
 #---------------------------------------------------------------------
 
 from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import Qt, pyqtSlot, QVariant
+from PyQt4.QtCore import Qt, pyqtSlot, QVariant, QUrl, QTextStream, QFile
 from PyQt4.QtGui import QDockWidget, QMessageBox, QDialog
-from qgis.core import QGis, QgsGeometry, QgsMapLayerRegistry, QgsMapLayer, QgsFeature, QgsFeatureRequest, QgsVectorDataProvider
+from qgis.core import QGis, QgsGeometry, QgsMapLayerRegistry, QgsMapLayer, QgsFeature, QgsFeatureRequest, QgsVectorDataProvider, QgsOgcUtils
 from qgis.gui import QgsRubberBand, QgsMessageBar
 
 from utils import *
 from fieldcombo import *
+from bagadres import *
+from infoperceeldialog import PerceelinfoDialog
+from infobagdialog import InfoBagDialog
+from infoverseondialog import InfoVerseonDialog
 from ..ui.ui_dockeditor import Ui_DockEditor
-from ..ui.ui_popup import Ui_AddressDialog
 # create the dialog for zoom to point
 
 class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
@@ -59,6 +62,9 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         # Gui defaults
         self.onderzochtJaarSpinBox.setVisible(False)
         self.hersteldJaarSpinBox.setVisible(False)
+        self.kwaliteitsklasseLabel.setVisible(False)
+        self.kwaliteitsklasseCombo.setVisible(False)
+        self.monitoringObjTekst.setVisible(False)
 
         # GUI signals connection
         self.actionButtonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.applySave)
@@ -66,7 +72,9 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.deleteButton.clicked.connect(self.applyDelete)
         self.newPandButton.clicked.connect(self.applyNewPand)
         self.idButton.clicked.connect(self.zoomToFeature)
-        self.commandLinkButton.clicked.connect(self.getVerblijfsObj)
+        self.adresLinkButton.clicked.connect(self.showVerblijfsObj)
+        self.verseonLinkButton.clicked.connect(self.getVerseonInfo)
+        self.lkiLinkButton.clicked.connect(self.showLkiInfo)
 
         # force Dutch for QDialogButtonBox
         self.actionButtonBox.button(QtGui.QDialogButtonBox.Save).setText("Opslaan")
@@ -80,7 +88,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.kwaliteitsklasseCombo.currentIndexChanged.connect(self.actionButtonBoxEnable)
         self.inonderzoekCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
         self.handhavingCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
-        self.bezitCombo.editTextChanged.connect(self.actionButtonBoxEnable)
+        self.typefundCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.projectCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.richtlijnCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.opmerkingText.textChanged.connect(self.actionButtonBoxEnable)
@@ -94,6 +102,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         self.editLayer = getVectorLayerByName(editLayerName)
         self.adresLayer = getVectorLayerByName(adresLayerName)
+        self.geomLayer = getVectorLayerByName(geomLayerName)
         self.editFeature = None
         self.updateCombos()
 
@@ -112,7 +121,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         if (self.editLayer):
             FieldCombo(self.kwaliteitsklasseCombo, self.editLayer, initField="kwaliteitsklasse")
-            FieldCombo(self.bezitCombo, self.editLayer, initField="bezit")
+            FieldCombo(self.typefundCombo, self.editLayer, initField="funderingtype")
             FieldCombo(self.projectCombo, self.editLayer, initField="project")
             FieldCombo(self.richtlijnCombo, self.editLayer, initField="richtlijn")
 
@@ -129,16 +138,13 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.updateGui(feature)
 
     def updateGui(self, feature):
-
-        print feature
-
         # The important part: get the feature iterator with an expression
         request = QgsFeatureRequest().setFilterExpression ( u'"pand_id" = \'' + unicode(feature['gebouwnummer']) + '\'' )
         request.setFlags( QgsFeatureRequest.NoGeometry )
-        features = self.editLayer.getFeatures( request )
+        features = self.geomLayer.getFeatures( request )
 
         atr = None
-        fields = self.editLayer.pendingFields()
+        fields = self.geomLayer.pendingFields()
         field_names = [field.name() for field in fields]
         for elem in features:
             self.editFeature = elem
@@ -159,6 +165,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
             self.verwijderWidget.hide()
 
             self.editFeature = None
+            self.statusNieuwLabel.setText(unicode(feature['status']))
             self.pandidLabel.setText(unicode(feature['gebouwnummer']))
 
     def showValues(self, feature, atr):
@@ -166,7 +173,10 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.deleteCheckBox.setChecked(False)
 
         self.idText.setText(unicode(atr.get("pand_id", "")))
-        self.commandLinkButton.setText("Pand bevat " + unicode(feature['vboj_count']) + " adres(sen)")
+        if (feature['vboj_count'] == 1):
+            self.adresLinkButton.setText(BagadresString().request(unicode(feature['gebouwnummer'])))
+        else:
+            self.adresLinkButton.setText("Pand bevat " + unicode(feature['vboj_count']) + " adres(sen)")
 
         if (atr.get("onderzocht", "")=="t"):
             self.onderzochtCheckBox.setChecked(True)
@@ -182,10 +192,12 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         self.setComboTekst(self.kwaliteitsklasseCombo, atr.get("kwaliteitsklasse", ""))
 
+        self.droogstandCheckBox.setChecked(toBoolean(atr.get("droogstand", "f")))
         self.inonderzoekCheckBox.setChecked(toBoolean(atr.get("inonderzoek", "f")))
-        self.handhavingCheckBox.setChecked(toBoolean(atr.get("monitoring", "f")))
+        self.handhavingCheckBox.setChecked(toBoolean(atr.get("fumon_monitoring", "f")))
+        self.monitoringObjTekst.setText(atr.get("fumon_objectcode", ""))
 
-        self.setComboTekst(self.bezitCombo, atr.get("bezit", ""))
+        self.setComboTekst(self.typefundCombo, atr.get("funderingtype", ""))
         self.setComboTekst(self.projectCombo, atr.get("project", ""))
         self.setComboTekst(self.richtlijnCombo, atr.get("richtlijn", ""))
         self.opmerkingText.setPlainText(atr.get("opmerking", ""))      
@@ -197,28 +209,20 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.statusText.setText(featureStatus)
         self.bouwjaarText.setText(featureBj)
 
-    def getVerblijfsObj(self):
-
+    def showVerblijfsObj(self):
         feature = self.selectedFeature
+        gebouwnummer = unicode(feature['gebouwnummer'])
+        InfoBagDialog(gebouwnummer, self.iface)
 
-        # The important part: get the feature iterator with an expression
-        request = QgsFeatureRequest().setFilterExpression ( u'"gebouwnummer" = \'' + unicode(feature['gebouwnummer']) + '\'' )
-        request.setFlags( QgsFeatureRequest.NoGeometry )
-        features = self.adresLayer.getFeatures( request )
+    def getVerseonInfo(self):
+        feature = self.selectedFeature
+        gebouwnummer = unicode(feature['gebouwnummer'])
+        InfoVerseonDialog(gebouwnummer, self.iface)
 
-        addressList = []
-        for feature in features:
-            addressList.append(feature["adres"])
-
-        if (len(addressList) == 1):
-            self.commandLinkButton.setText(unicode(addressList[0]))
-        else:
-            dialog = QDialog()
-            dialog.ui = Ui_AddressDialog()
-            dialog.ui.setupUi(dialog)
-            dialog.ui.listWidget.addItems(addressList)
-            dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-            dialog.exec_()
+    def showLkiInfo(self):
+        feature = self.selectedFeature
+        wkt = feature.geometry().pointOnSurface().exportToWkt()
+        PerceelinfoDialog(wkt, self.iface)
 
     def setComboTekst(self, combo, value):
         idx = combo.findText(value)
@@ -258,6 +262,8 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
                 layer.changeAttributeValue(fid, layer.fieldNameIndex( "onderzocht_jaar" ), self.onderzochtJaarSpinBox.value())
             else:
                 layer.changeAttributeValue(fid, layer.fieldNameIndex( "onderzocht_jaar" ), None)
+                
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "kwaliteitsklasse" ), self.kwaliteitsklasseCombo.currentText())
 
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "hersteld" ), self.hersteldCheckBox.isChecked())
             if (self.hersteldCheckBox.isChecked()):
@@ -265,21 +271,21 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
             else:
                 layer.changeAttributeValue(fid, layer.fieldNameIndex( "hersteld_jaar" ), None)
 
-            layer.changeAttributeValue(fid, layer.fieldNameIndex( "kwaliteitsklasse" ), self.kwaliteitsklasseCombo.currentText())
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "droogstand" ), self.droogstandCheckBox.isChecked())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "inonderzoek" ), self.inonderzoekCheckBox.isChecked())
-            layer.changeAttributeValue(fid, layer.fieldNameIndex( "monitoring" ), self.handhavingCheckBox.isChecked())
-            layer.changeAttributeValue(fid, layer.fieldNameIndex( "bezit" ), self.bezitCombo.currentText())
+
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "funderingtype" ), self.typefundCombo.currentText())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "project" ), self.projectCombo.currentText())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "richtlijn" ), self.richtlijnCombo.currentText())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "opmerking" ), self.opmerkingText.toPlainText())
         except Exception, e:
             raise e
             layer.destroyEditCommand()
-            self.iface.messageBar().pushMessage("Error", "I'm sorry Dave, I'm afraid I can't do that", level=QgsMessageBar.CRITICAL)
+            self.iface.messageBar().pushMessage("Error", "Er is wat misgegaan tijdens het opslaan van dit BAG object!", level=QgsMessageBar.CRITICAL)
         else:
             layer.endEditCommand()
             layer.commitChanges()
-            self.layer.triggerRepaint()
+            self.geomLayer.triggerRepaint()
             self.iface.messageBar().pushMessage("BAG object " + self.idText.text() + " is opgeslagen...", level=QgsMessageBar.INFO)
 
         self.editGroupBox.hide()
@@ -307,6 +313,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         atr = atrDefaults
         atr["pand_id"] = self.pandidLabel.text()
+        atr["kwaliteitsklasse"] = "Onbekend"
 
         self.showValues(self.selectedFeature, atrDefaults)
         self.actionButtonBox.setDisabled(False)

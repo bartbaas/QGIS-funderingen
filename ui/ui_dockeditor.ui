@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>1027</height>
+    <height>1271</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -47,7 +47,7 @@
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="2" column="1">
+       <item row="3" column="1">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -60,14 +60,14 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="pandidLabel">
          <property name="font">
           <font>
            <pointsize>13</pointsize>
-           <weight>50</weight>
+           <weight>75</weight>
            <italic>false</italic>
-           <bold>false</bold>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -88,7 +88,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="3" column="2">
         <widget class="QPushButton" name="newPandButton">
          <property name="text">
           <string>Nieuw pand</string>
@@ -99,6 +99,19 @@
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#0080ff;&quot;&gt;Nieuw pand&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QLabel" name="statusNieuwLabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>statusNieuwLabel</string>
          </property>
         </widget>
        </item>
@@ -222,34 +235,6 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QWidget" name="widget" native="true">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>32</height>
-          </size>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item row="0" column="0">
-           <widget class="QCommandLinkButton" name="commandLinkButton">
-            <property name="toolTip">
-             <string>Klik om adresgegevens op te vragen</string>
-            </property>
-            <property name="text">
-             <string>CommandLinkButton</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="5" column="0">
         <widget class="QGroupBox" name="detailsGroupBox">
          <property name="minimumSize">
@@ -265,79 +250,36 @@
           <property name="topMargin">
            <number>6</number>
           </property>
-          <item row="17" column="0" colspan="2">
-           <widget class="QCheckBox" name="handhavingCheckBox">
+          <item row="17" column="1">
+           <widget class="QLineEdit" name="monitoringObjTekst">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="23" column="0">
+           <widget class="QLabel" name="typefundLabel">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>24</height>
+              <height>0</height>
              </size>
             </property>
             <property name="text">
-             <string>Monitoring handhaving</string>
+             <string>Type fundering</string>
             </property>
            </widget>
           </item>
-          <item row="21" column="0">
-           <widget class="QLabel" name="richtlijnLabel">
-            <property name="text">
-             <string>Richtlijn</string>
-            </property>
-            <property name="buddy">
-             <cstring>richtlijnCombo</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="20" column="0">
-           <widget class="QLabel" name="renbLabel">
-            <property name="text">
-             <string>Project</string>
-            </property>
-            <property name="buddy">
-             <cstring>projectCombo</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="2">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Funderingsgegevens voor BAG object&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0">
-           <widget class="QLabel" name="bouwjaarLabel">
-            <property name="text">
-             <string>Bouwjaar</string>
-            </property>
-            <property name="buddy">
-             <cstring>bouwjaarText</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="15" column="0">
-           <widget class="QLabel" name="kwaliteitsklasseLabel">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0   = Onbekend&lt;/p&gt;&lt;p&gt;1   = Ruim voldoende&lt;/p&gt;&lt;p&gt;2   = Voldoende&lt;/p&gt;&lt;p&gt;3   = Matig&lt;/p&gt;&lt;p&gt;3+ = Onvoldoende&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Kwaliteitsklasse</string>
-            </property>
-            <property name="buddy">
-             <cstring>kwaliteitsklasseCombo</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="0" colspan="2">
-           <widget class="QCheckBox" name="inonderzoekCheckBox">
+          <item row="23" column="1">
+           <widget class="QComboBox" name="typefundCombo">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>24</height>
+              <height>21</height>
              </size>
             </property>
-            <property name="text">
-             <string>Pand in onderzoek</string>
+            <property name="editable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -392,59 +334,8 @@
             </item>
            </layout>
           </item>
-          <item row="19" column="1">
-           <widget class="QComboBox" name="bezitCombo">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="22" column="0">
-           <widget class="QLabel" name="opmerkingLabel">
-            <property name="text">
-             <string>Opmerking</string>
-            </property>
-            <property name="buddy">
-             <cstring>opmerkingText</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="14" column="1">
-           <widget class="QSpinBox" name="hersteldJaarSpinBox">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="wrapping">
-             <bool>false</bool>
-            </property>
-            <property name="specialValueText">
-             <string/>
-            </property>
-            <property name="minimum">
-             <number>1900</number>
-            </property>
-            <property name="maximum">
-             <number>2050</number>
-            </property>
-            <property name="value">
-             <number>1900</number>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="1">
-           <widget class="QLineEdit" name="typeText">
+          <item row="11" column="1">
+           <widget class="QLineEdit" name="bouwjaarText">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -457,9 +348,32 @@
             <property name="cursor">
              <cursorShape>ArrowCursor</cursorShape>
             </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
-          <item row="15" column="1">
+          <item row="25" column="1">
+           <widget class="QComboBox" name="richtlijnCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0" colspan="2">
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1">
            <widget class="QComboBox" name="kwaliteitsklasseCombo">
             <property name="minimumSize">
              <size>
@@ -522,33 +436,45 @@
             </property>
            </widget>
           </item>
-          <item row="22" column="1">
-           <widget class="QPlainTextEdit" name="opmerkingText">
+          <item row="14" column="1">
+           <widget class="QSpinBox" name="hersteldJaarSpinBox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>21</height>
+              <height>24</height>
              </size>
             </property>
-            <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarAsNeeded</enum>
+            <property name="wrapping">
+             <bool>false</bool>
             </property>
-            <property name="plainText">
+            <property name="specialValueText">
              <string/>
             </property>
+            <property name="minimum">
+             <number>1900</number>
+            </property>
+            <property name="maximum">
+             <number>2050</number>
+            </property>
+            <property name="value">
+             <number>1900</number>
+            </property>
            </widget>
           </item>
-          <item row="10" column="0">
-           <widget class="QLabel" name="typeLabel">
+          <item row="26" column="0">
+           <widget class="QLabel" name="opmerkingLabel">
             <property name="text">
-             <string>Type</string>
+             <string>Opmerking</string>
             </property>
             <property name="buddy">
-             <cstring>typeText</cstring>
+             <cstring>opmerkingText</cstring>
             </property>
            </widget>
           </item>
-          <item row="20" column="1">
+          <item row="24" column="1">
            <widget class="QComboBox" name="projectCombo">
             <property name="minimumSize">
              <size>
@@ -561,28 +487,66 @@
             </property>
            </widget>
           </item>
-          <item row="9" column="1">
-           <widget class="QLineEdit" name="statusText">
-            <property name="enabled">
-             <bool>false</bool>
+          <item row="13" column="0">
+           <widget class="QLabel" name="kwaliteitsklasseLabel">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0   = Onbekend&lt;/p&gt;&lt;p&gt;1   = Ruim voldoende&lt;/p&gt;&lt;p&gt;2   = Voldoende&lt;/p&gt;&lt;p&gt;3   = Matig&lt;/p&gt;&lt;p&gt;3+ = Onvoldoende&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
+            <property name="text">
+             <string>Kwaliteitsklasse</string>
+            </property>
+            <property name="buddy">
+             <cstring>kwaliteitsklasseCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="25" column="0">
+           <widget class="QLabel" name="richtlijnLabel">
+            <property name="text">
+             <string>Richtlijn</string>
+            </property>
+            <property name="buddy">
+             <cstring>richtlijnCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="24" column="0">
+           <widget class="QLabel" name="renbLabel">
+            <property name="text">
+             <string>Project</string>
+            </property>
+            <property name="buddy">
+             <cstring>projectCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Funderingsgegevens voor BAG object&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="bouwjaarLabel">
+            <property name="text">
+             <string>Bouwjaar</string>
+            </property>
+            <property name="buddy">
+             <cstring>bouwjaarText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="19" column="0" colspan="2">
+           <widget class="QCheckBox" name="inonderzoekCheckBox">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>21</height>
+              <height>24</height>
              </size>
             </property>
-            <property name="cursor">
-             <cursorShape>ArrowCursor</cursorShape>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
             <property name="text">
-             <string/>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
+             <string>Pand in onderzoek</string>
             </property>
            </widget>
           </item>
@@ -624,8 +588,41 @@
             </property>
            </widget>
           </item>
-          <item row="11" column="1">
-           <widget class="QLineEdit" name="bouwjaarText">
+          <item row="6" column="0">
+           <widget class="QLabel" name="idLabel">
+            <property name="text">
+             <string>BAG id</string>
+            </property>
+            <property name="buddy">
+             <cstring>idText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="26" column="1">
+           <widget class="QTextEdit" name="opmerkingText">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>21</height>
+             </size>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="statusLabel">
+            <property name="text">
+             <string>Status</string>
+            </property>
+            <property name="buddy">
+             <cstring>statusText</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="statusText">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -638,51 +635,103 @@
             <property name="cursor">
              <cursorShape>ArrowCursor</cursorShape>
             </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
             <property name="readOnly">
              <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="statusLabel">
-            <property name="text">
-             <string>Status</string>
-            </property>
-            <property name="buddy">
-             <cstring>statusText</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="21" column="1">
-           <widget class="QComboBox" name="richtlijnCombo">
+          <item row="18" column="0">
+           <widget class="QCheckBox" name="droogstandCheckBox">
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>21</height>
+              <height>24</height>
              </size>
             </property>
-            <property name="editable">
+            <property name="text">
+             <string>Droogstand</string>
+            </property>
+           </widget>
+          </item>
+          <item row="17" column="0">
+           <widget class="QCheckBox" name="handhavingCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Monitoring</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0" rowspan="2">
+        <widget class="QWidget" name="widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="1" column="0">
+           <widget class="QCommandLinkButton" name="verseonLinkButton">
+            <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Verseon gegevens</string>
+            </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="idLabel">
-            <property name="text">
-             <string>BAG id</string>
+          <item row="0" column="0">
+           <widget class="QCommandLinkButton" name="adresLinkButton">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
             </property>
-            <property name="buddy">
-             <cstring>idText</cstring>
+            <property name="toolTip">
+             <string>Klik om adresgegevens op te vragen</string>
+            </property>
+            <property name="text">
+             <string>adresLinkButton</string>
             </property>
            </widget>
           </item>
-          <item row="19" column="0">
-           <widget class="QLabel" name="bezitLabel">
-            <property name="text">
-             <string>Bezit</string>
+          <item row="2" column="0">
+           <widget class="QCommandLinkButton" name="lkiLinkButton">
+            <property name="enabled">
+             <bool>true</bool>
             </property>
-            <property name="buddy">
-             <cstring>bezitCombo</cstring>
+            <property name="text">
+             <string>Kadaster gegevens</string>
             </property>
            </widget>
           </item>
@@ -740,26 +789,23 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>idText</tabstop>
   <tabstop>idButton</tabstop>
-  <tabstop>statusText</tabstop>
-  <tabstop>typeText</tabstop>
   <tabstop>bouwjaarText</tabstop>
   <tabstop>onderzochtCheckBox</tabstop>
   <tabstop>onderzochtJaarSpinBox</tabstop>
   <tabstop>hersteldCheckBox</tabstop>
   <tabstop>hersteldJaarSpinBox</tabstop>
-  <tabstop>kwaliteitsklasseCombo</tabstop>
   <tabstop>inonderzoekCheckBox</tabstop>
-  <tabstop>handhavingCheckBox</tabstop>
-  <tabstop>bezitCombo</tabstop>
   <tabstop>projectCombo</tabstop>
   <tabstop>richtlijnCombo</tabstop>
   <tabstop>opmerkingText</tabstop>
-  <tabstop>actionButtonBox</tabstop>
   <tabstop>deleteCheckBox</tabstop>
   <tabstop>deleteButton</tabstop>
+  <tabstop>actionButtonBox</tabstop>
   <tabstop>newPandButton</tabstop>
+  <tabstop>adresLinkButton</tabstop>
+  <tabstop>kwaliteitsklasseCombo</tabstop>
+  <tabstop>idText</tabstop>
  </tabstops>
  <resources>
   <include location="../resources.qrc"/>
@@ -772,12 +818,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>166</x>
-     <y>557</y>
+     <x>169</x>
+     <y>676</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>557</y>
+     <x>359</x>
+     <y>676</y>
     </hint>
    </hints>
   </connection>
@@ -788,12 +834,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>171</x>
-     <y>523</y>
+     <x>169</x>
+     <y>612</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>523</y>
+     <x>359</x>
+     <y>612</y>
     </hint>
    </hints>
   </connection>
@@ -804,12 +850,124 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>172</x>
-     <y>821</y>
+     <x>178</x>
+     <y>1141</y>
     </hint>
     <hint type="destinationlabel">
-     <x>366</x>
-     <y>829</y>
+     <x>368</x>
+     <y>1149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>onderzochtCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kwaliteitsklasseLabel</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>126</x>
+     <y>612</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>140</x>
+     <y>642</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>onderzochtCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kwaliteitsklasseCombo</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>612</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>362</x>
+     <y>646</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hersteldCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kwaliteitsklasseLabel</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>160</x>
+     <y>642</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hersteldCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kwaliteitsklasseCombo</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>362</x>
+     <y>646</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hersteldCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>onderzochtCheckBox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>115</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>612</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hersteldCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>onderzochtJaarSpinBox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>676</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>612</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>handhavingCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>monitoringObjTekst</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>96</x>
+     <y>761</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>212</x>
+     <y>768</y>
     </hint>
    </hints>
   </connection>
