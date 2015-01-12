@@ -1,7 +1,7 @@
 [general]
 name=Funderingsherstel Zaanstad
 description=Beheermodule voor het bijhouden van funderingsherstel gegevens
-version=0.5
+version=0.6.0
 qgisMinimumVersion=2.2
 author=Bart Baas
 email=info@baasgeo.com
