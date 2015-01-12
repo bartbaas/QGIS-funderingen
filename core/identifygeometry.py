@@ -25,6 +25,7 @@
 #
 #---------------------------------------------------------------------
 
+from PyQt4 import QtCore
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtGui import QPixmap, QCursor
 from qgis.core import QgsVectorLayer, QgsFeature, QgsMapLayerRegistry, QgsMapLayer
@@ -41,7 +42,17 @@ class IdentifyGeometry(QgsMapToolIdentify):
         QgsMapToolIdentify.__init__(self, canvas)
         self.setCursor(QCursor(QPixmap(Cursor), 1, 6))
 
+    def canvasPressEvent(self, event):
+        pass
+
+    def canvasMoveEvent(self, event):
+        pass
+
     def canvasReleaseEvent(self, mouseEvent):
+
+        if mouseEvent.button() == QtCore.Qt.RightButton:
+            print("release clicked right")
+
         layerA = getVectorLayerByName(layerName)
         try:
             results = self.identify(mouseEvent.x(), mouseEvent.y(), [layerA], self.TopDownStopAtFirst)
@@ -50,3 +61,13 @@ class IdentifyGeometry(QgsMapToolIdentify):
         if len(results) > 0:
             self.geomIdentified.emit(results[0].mLayer, QgsFeature(results[0].mFeature))
 
+
+
+    def isZoomTool(self):
+        return False
+
+    def isTransient(self):
+        return False
+
+    def isEditTool(self):
+        return True
