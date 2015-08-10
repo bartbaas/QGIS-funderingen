@@ -80,17 +80,20 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.actionButtonBox.button(QtGui.QDialogButtonBox.Save).setText("Opslaan")
         self.actionButtonBox.button(QtGui.QDialogButtonBox.Abort).setText("Annuleer");
 
-        #self.idButton.changeEvent.connect(self.actionButtonBoxEnable)
+        # enable save button when value changes
         self.onderzochtCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
         self.onderzochtJaarSpinBox.valueChanged.connect(self.actionButtonBoxEnable)
         self.hersteldCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
         self.hersteldJaarSpinBox.valueChanged.connect(self.actionButtonBoxEnable)
         self.kwaliteitsklasseCombo.currentIndexChanged.connect(self.actionButtonBoxEnable)
-        self.inonderzoekCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
-        self.handhavingCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
-        self.typefundCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.projectCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.richtlijnCombo.editTextChanged.connect(self.actionButtonBoxEnable)
+        self.handhavingCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
+        self.typefundCombo.editTextChanged.connect(self.actionButtonBoxEnable)
+        self.paallengteSpinBox.valueChanged.connect(self.actionButtonBoxEnable)
+        self.houtsoortCombo.editTextChanged.connect(self.actionButtonBoxEnable)
+        self.dekkingSpinBox.valueChanged.connect(self.actionButtonBoxEnable)
+        self.droogstandCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
         self.opmerkingText.textChanged.connect(self.actionButtonBoxEnable)
 
         self.setVisible(False)
@@ -99,6 +102,10 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         self.newGroupBox.hide()
         self.editGroupBox.hide()
+        if (getVectorLayerByName(editLayerName) == None):
+            self.errorFrame.show()
+        else:
+            self.errorFrame.hide()
 
         self.editLayer = getVectorLayerByName(editLayerName)
         self.adresLayer = getVectorLayerByName(adresLayerName)
@@ -121,9 +128,10 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         if (self.editLayer):
             FieldCombo(self.kwaliteitsklasseCombo, self.editLayer, initField="kwaliteitsklasse")
-            FieldCombo(self.typefundCombo, self.editLayer, initField="funderingtype")
             FieldCombo(self.projectCombo, self.editLayer, initField="project")
             FieldCombo(self.richtlijnCombo, self.editLayer, initField="richtlijn")
+            FieldCombo(self.typefundCombo, self.editLayer, initField="funderingtype")
+            FieldCombo(self.houtsoortCombo, self.editLayer, initField="houtsoort")
 
     def actionButtonBoxEnable(self):
         self.actionButtonBox.setDisabled(False)
@@ -155,9 +163,8 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
             self.newGroupBox.hide()
             self.editGroupBox.show()
             self.verwijderWidget.show()
-
             self.showValues(feature, atr)
-            self.actionButtonBox.setDisabled(False)
+            self.actionButtonBox.setDisabled(True)
 
         else:
             self.newGroupBox.show()
@@ -184,22 +191,27 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         else:
             self.onderzochtCheckBox.setChecked(False)
 
+        self.setComboTekst(self.kwaliteitsklasseCombo, atr.get("kwaliteitsklasse", ""))
+
         if (atr.get("hersteld", "")=="t"):
             self.hersteldCheckBox.setChecked(True)
             self.hersteldJaarSpinBox.setValue(atr.get("hersteld_jaar", ""))
         else:
             self.hersteldCheckBox.setChecked(False)
 
-        self.setComboTekst(self.kwaliteitsklasseCombo, atr.get("kwaliteitsklasse", ""))
+        self.setComboTekst(self.projectCombo, atr.get("project", ""))
+        self.setComboTekst(self.richtlijnCombo, atr.get("richtlijn", ""))
 
-        self.droogstandCheckBox.setChecked(toBoolean(atr.get("droogstand", "f")))
-        self.inonderzoekCheckBox.setChecked(toBoolean(atr.get("inonderzoek", "f")))
+        
         self.handhavingCheckBox.setChecked(toBoolean(atr.get("fumon_monitoring", "f")))
         self.monitoringObjTekst.setText(atr.get("fumon_objectcode", ""))
 
         self.setComboTekst(self.typefundCombo, atr.get("funderingtype", ""))
-        self.setComboTekst(self.projectCombo, atr.get("project", ""))
-        self.setComboTekst(self.richtlijnCombo, atr.get("richtlijn", ""))
+        self.paallengteSpinBox.setValue(atr.get("paallengte", 0))
+        self.setComboTekst(self.houtsoortCombo, atr.get("houtsoort", ""))
+        self.dekkingSpinBox.setValue(atr.get("dekking", 0))
+        self.droogstandCheckBox.setChecked(toBoolean(atr.get("droogstand", "f")))
+
         self.opmerkingText.setPlainText(atr.get("opmerking", ""))      
 
         # set texts in UI
@@ -271,27 +283,28 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
             else:
                 layer.changeAttributeValue(fid, layer.fieldNameIndex( "hersteld_jaar" ), None)
 
-            layer.changeAttributeValue(fid, layer.fieldNameIndex( "droogstand" ), self.droogstandCheckBox.isChecked())
-            layer.changeAttributeValue(fid, layer.fieldNameIndex( "inonderzoek" ), self.inonderzoekCheckBox.isChecked())
-
-            layer.changeAttributeValue(fid, layer.fieldNameIndex( "funderingtype" ), self.typefundCombo.currentText())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "project" ), self.projectCombo.currentText())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "richtlijn" ), self.richtlijnCombo.currentText())
+
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "funderingtype" ), self.typefundCombo.currentText())
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "paallengte" ), self.paallengteSpinBox.value())
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "houtsoort" ), self.houtsoortCombo.currentText())
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "dekking" ), self.dekkingSpinBox.value())
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "droogstand" ), self.droogstandCheckBox.isChecked())
+
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "opmerking" ), self.opmerkingText.toPlainText())
         except Exception, e:
             raise e
             layer.destroyEditCommand()
-            self.iface.messageBar().pushMessage("Error", "Er is wat misgegaan tijdens het opslaan van dit BAG object!", level=QgsMessageBar.CRITICAL)
+            self.iface.messageBar().pushMessage("Funderingsherstel", "Er is wat misgegaan tijdens het opslaan van dit BAG object!", level=QgsMessageBar.CRITICAL)
         else:
             layer.endEditCommand()
             layer.commitChanges()
             self.geomLayer.triggerRepaint()
-            self.iface.messageBar().pushMessage("BAG object " + self.idText.text() + " is opgeslagen...", level=QgsMessageBar.INFO)
+            self.iface.messageBar().pushMessage("Funderingsherstel", "BAG object " + self.idText.text() + " is opgeslagen...", level=QgsMessageBar.INFO)
 
-        self.editGroupBox.hide()
         self.updateCombos()
         self.updateGui(self.selectedFeature)
-        self.actionButtonBox.setDisabled(True)
 
     def applyCancel(self):
         self.updateGui(self.selectedFeature)
@@ -304,6 +317,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         layer.deleteFeature(fid)
         layer.commitChanges()
         self.layer.triggerRepaint()
+        self.geomLayer.triggerRepaint()
         self.updateGui(self.selectedFeature)
 
     def applyNewPand(self):

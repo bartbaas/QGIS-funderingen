@@ -75,7 +75,7 @@ class InfoBagDialog(QDialog, Ui_Info):
             self.tableWidget.setRowCount(count);
             features = data['features']
             for idx, feature in enumerate(features):
-                text = QTableWidgetItem(feature['properties']['adres'] + " (" + feature['properties']['gebruik'] + ")")
+                text = QTableWidgetItem(feature['properties']['adres'] + ", " + feature['properties']['postcode'] + " (" + feature['properties']['gebruik'] + ")")
                 self.tableWidget.setItem(idx,0,text)
 
             self.tableWidget.resizeColumnToContents(0)

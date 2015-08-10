@@ -70,4 +70,5 @@ class IdentifyGeometry(QgsMapToolIdentify):
         return False
 
     def isEditTool(self):
-        return True
+        # This is needed because otherwise the tool will be turned off after editing
+        return False

@@ -27,6 +27,8 @@
 from PyQt4.QtCore import QUrl
 from PyQt4.QtGui import QAction, QIcon, QDesktopServices
 
+from qgis.core import QgsProject
+
 from core.identifygeometry import IdentifyGeometry
 from core.dockeditordialog import DockEditorDialog
 from core.utils import *
@@ -44,27 +46,33 @@ class FunderingGeometryEditor():
         self.plugin_dir = os.path.dirname(__file__)
    
     def initGui(self):
+        """ runs when plugin is activated from the plugin menu """
         # help
         self.helpAction = QAction(QIcon(":/funderingsherstel/icons/help.svg"), "Help", self.iface.mainWindow())
         self.helpAction.triggered.connect(lambda: QDesktopServices().openUrl(QUrl("mailto:geo-informatie@zaanstad.nl")))
 
-        # map tool action
+        # Create the dock (after translation) and keep reference
+        self.dock = DockEditorDialog(self.iface, self.mapCanvas)
+        self.dock.setVisible(False)
+        self.dock.visibilityChanged.connect(self.dockVisibilityChanged)
+
+        # map tool actionand default state
         self.mapToolAction = QAction(QIcon(":/funderingsherstel/icons/fundering.svg"),
                                      u"Funderingsherstel", self.iface.mainWindow())
         self.mapToolAction.setCheckable(True)
-        self.mapToolAction.triggered.connect(self.setMapTool)
+        self.mapToolAction.setChecked(False)
+        self.mapToolAction.triggered.connect(self.dock.setVisible)
 
         self.iface.addToolBarIcon(self.mapToolAction)
-
-        # Create the dock (after translation) and keep reference
-        self.dock = DockEditorDialog(self.iface, self.mapCanvas)
-        self.dock.visibilityChanged.connect(self.unsetMapTool)
         
         # menu
         self.iface.addPluginToMenu("&Funderingsherstel", self.mapToolAction)
         self.iface.addPluginToMenu("&Funderingsherstel", self.helpAction)
 
     def unload(self):
+        # Unset the map tool in case it's set
+        self.mapToolAction.setChecked(False)
+
         self.iface.removePluginMenu("&Funderingsherstel", self.helpAction)
         self.iface.removePluginMenu("&Funderingsherstel", self.mapToolAction)
         self.iface.removeToolBarIcon(self.mapToolAction)
@@ -72,27 +80,15 @@ class FunderingGeometryEditor():
         self.dock.hide()
         self.dock.deleteLater()
 
-    def unsetMapTool(self):
-        self.mapToolAction.setChecked( self.dock.isVisible() )
-
-        if (self.mapToolAction.isChecked() is False and self.mapTool is not None):
-            self.mapCanvas.unsetMapTool(self.mapTool)
-
-    def setMapTool(self):
-
-        self.dock.errorFrame.hide()
-
-        if self.mapToolAction.isChecked() is False:
-            self.dock.close()
+    def dockVisibilityChanged(self):
+        if self.dock.isVisible() is True:
+            self.mapTool = IdentifyGeometry(self.mapCanvas)
+            self.mapTool.geomIdentified.connect(self.editGeometry)
+            self.mapTool.setAction(self.mapToolAction)
+            self.mapCanvas.setMapTool(self.mapTool)
         else:
-            self.dock.show()
-            if (getVectorLayerByName(editLayerName) == None):
-                self.dock.errorFrame.show()
-            else:
-                self.mapTool = IdentifyGeometry(self.mapCanvas)
-                self.mapTool.geomIdentified.connect(self.editGeometry)
-                self.mapTool.setAction(self.mapToolAction)
-                self.mapCanvas.setMapTool(self.mapTool)
+            self.dock.close()
+            self.mapCanvas.unsetMapTool(self.mapTool)
 
     def editGeometry(self, layer, feature):
         self.dock.featureSelected(layer, feature)
