@@ -59,7 +59,7 @@ class PerceelinfoDialog(QDialog, Ui_Perceelinfo):
         #geom_ogr = ogr.CreateGeometryFromWkt(wkt)
         #gml = geom_wkt.ExportToGML()
         qurl = QUrl.fromUserInput(self.basewfs)
-        qurl.addQueryItem('typeName', 'geo:lki_perceel')
+        qurl.addQueryItem('typeName', 'geo:brk_perceel')
         qurl.addQueryItem('cql_filter', "CONTAINS(geom," + wkt + ")")
         request = QNetworkRequest(qurl)
         reply = self.manager.get(request)
@@ -80,14 +80,15 @@ class PerceelinfoDialog(QDialog, Ui_Perceelinfo):
 
             properties = perceeldata['features'][0]['properties']
             self.perceelText.setText(unicode(properties['aanduiding']))
-            self.oppervlakteText.setText(unicode(properties['oppervl']))
+            self.oppervlakteText.setText(unicode(properties['kadastralegrootte']))
 
-            self.getAkrInfo(self.perceelText.text())
+            self.getAkrInfo(unicode(properties['id']))
 
-    def getAkrInfo(self, perceel):
+    def getAkrInfo(self, id):
         qurl = QUrl.fromUserInput(self.basewfs)
-        qurl.addQueryItem('typeName', 'geo:akr_zakelijkrecht')
-        qurl.addQueryItem('cql_filter', "perceel='" + perceel + "'")
+        qurl.addQueryItem('typeName', 'geo:brk_zak_recht')
+        qurl.addQueryItem('cql_filter', "rust_op_kadastraalobject_id='" + id + "'")
+        print qurl
         request = QNetworkRequest(qurl)
         reply = self.manager.get(request)
         reply.finished.connect(self.handleAkrInfo)
@@ -104,13 +105,10 @@ class PerceelinfoDialog(QDialog, Ui_Perceelinfo):
             ownerList = []
             for feature in features:
                 properties = feature['properties']
-                text = properties.get('naam') + ' ' if properties['naam'] != None else u''
-                text += properties.get('voorv') + ' ' if properties['voorv'] != None else u''
-                text += properties.get('voorl') + ' ' if properties['voorl'] != None else u''
-                text += '(' + properties.get('npkode') + ') ' if properties['npkode'] != None else u''
+                text = properties.get('naam').strip() + ' ' if properties['naam'] != None else u''
+                text += ' - ' + properties.get('omschrijving').strip() + ' ' if properties['omschrijving'] != None else u''
                 text += ' - '
-                text += properties.get('zr_oms') + ' ' if properties['zr_oms'] != None else u''
-                text += str(properties.get('aandeel_t')) + '/' + str(properties.get('aandeel_n')) if properties['aandeel_n'] != None else u''
+                text += properties.get('teller').strip() + '/' + properties.get('noemer').strip() if properties['noemer'] != None else u''
                 ownerList.append(text)
 
             self.listWidget.addItems(ownerList)

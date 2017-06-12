@@ -60,10 +60,10 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.updateFeatureRubber()
 
         # Gui defaults
+        self.kwaliteitsklasseCombo.setVisible(False)
         self.onderzochtJaarSpinBox.setVisible(False)
         self.hersteldJaarSpinBox.setVisible(False)
         self.kwaliteitsklasseLabel.setVisible(False)
-        self.kwaliteitsklasseCombo.setVisible(False)
         self.monitoringObjTekst.setVisible(False)
 
         # GUI signals connection
@@ -81,11 +81,12 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         self.actionButtonBox.button(QtGui.QDialogButtonBox.Abort).setText("Annuleer");
 
         # enable save button when value changes
+        self.bezitCombo.currentIndexChanged.connect(self.actionButtonBoxEnable)
+        self.kwaliteitsklasseCombo.currentIndexChanged.connect(self.actionButtonBoxEnable)
         self.onderzochtCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
         self.onderzochtJaarSpinBox.valueChanged.connect(self.actionButtonBoxEnable)
         self.hersteldCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
         self.hersteldJaarSpinBox.valueChanged.connect(self.actionButtonBoxEnable)
-        self.kwaliteitsklasseCombo.currentIndexChanged.connect(self.actionButtonBoxEnable)
         self.projectCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.richtlijnCombo.editTextChanged.connect(self.actionButtonBoxEnable)
         self.handhavingCheckBox.stateChanged.connect(self.actionButtonBoxEnable)
@@ -127,6 +128,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
     def updateCombos(self):
 
         if (self.editLayer):
+            FieldCombo(self.bezitCombo, self.editLayer, initField="bezit")
             FieldCombo(self.kwaliteitsklasseCombo, self.editLayer, initField="kwaliteitsklasse")
             FieldCombo(self.projectCombo, self.editLayer, initField="project")
             FieldCombo(self.richtlijnCombo, self.editLayer, initField="richtlijn")
@@ -185,6 +187,8 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
         else:
             self.adresLinkButton.setText("Pand bevat " + unicode(feature['vboj_count']) + " adres(sen)")
 
+        self.setComboTekst(self.bezitCombo, atr.get("bezit", ""))
+
         if (atr.get("onderzocht", "")=="t"):
             self.onderzochtCheckBox.setChecked(True)
             self.onderzochtJaarSpinBox.setValue(atr.get("onderzocht_jaar", ""))
@@ -201,7 +205,6 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
 
         self.setComboTekst(self.projectCombo, atr.get("project", ""))
         self.setComboTekst(self.richtlijnCombo, atr.get("richtlijn", ""))
-
         
         self.handhavingCheckBox.setChecked(toBoolean(atr.get("fumon_monitoring", "f")))
         self.monitoringObjTekst.setText(atr.get("fumon_objectcode", ""))
@@ -269,6 +272,7 @@ class DockEditorDialog(QtGui.QDockWidget, Ui_DockEditor):
             fid = self.editFeature.id()
 
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "pand_id" ), self.idText.text())
+            layer.changeAttributeValue(fid, layer.fieldNameIndex( "bezit" ), self.bezitCombo.currentText())
             layer.changeAttributeValue(fid, layer.fieldNameIndex( "onderzocht" ), self.onderzochtCheckBox.isChecked())
             if (self.onderzochtCheckBox.isChecked()):
                 layer.changeAttributeValue(fid, layer.fieldNameIndex( "onderzocht_jaar" ), self.onderzochtJaarSpinBox.value())
